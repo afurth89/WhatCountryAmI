@@ -1,5 +1,46 @@
+.row {
+  margin: 0 auto 10px;
+}
+
+#pageTitle {
+  text-align: center;
+}
+
+#playerInfoDiv {
+  display: inline-block;
+  width: 100%;
+  margin: 0 auto 10px;
+}
+
+.playerInfo {
+  border: 5px solid blue;
+  text-align: center;
+  width: 50%;
+  margin-bottom: 10px;
+
+}
+
+#imageContainer {
+  margin: 0 auto;
+}
+
 #regions_div {
    width: 900px; 
    height: 500px;
    border: 5px solid black;
+   margin: 0 auto;
+}
+
+#playerGuess {
+  text-align: center;
+  width: 80%;
+  margin: 0 auto;
+  border: 5px solid green;
+}
+
+#playerGuessText {
+  text-align: center;
+  width: 100%;
+  background-color: #D3D3D3;
+  font-size: 32px;
 }
