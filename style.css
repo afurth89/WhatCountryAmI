@@ -24,8 +24,12 @@
   margin: 0 auto;
 }
 
+#buttonContainer {
+  text-align: center;
+}
+
 #regions_div {
-   width: 900px; 
+   width: 710px; 
    height: 500px;
    border: 5px solid black;
    margin: 0 auto;
