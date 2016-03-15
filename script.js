@@ -2,7 +2,7 @@ $( document ).ready(function() {
 
   var $startBtn = $('#startButton');
   var $playerGuessForm = $('#playerGuess');
-  var $playerGuess;
+  var $playerGuess = $('#playerGuessText');
   var $playerScore = $('#playerScore');
   var $banner = $('#banner');
   var imagesShownCount = 0;     // # of images successfully displayed
@@ -66,6 +66,7 @@ $( document ).ready(function() {
     $startBtn.addClass('hidden');
     $banner.removeClass('hidden').text("What country is this?");
     getNewCountry();
+    $playerGuess.focus();
   });
 
   //***************************************************************************
