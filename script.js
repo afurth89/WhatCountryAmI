@@ -50,9 +50,9 @@ $( document ).ready(function() {
   google.charts.setOnLoadCallback(drawRegionsMap);
 
   var testArray = [
-    'DE',
-    'FR',
-    'NL',
+    ['DE', '150'],
+    ['BD', '142'],
+    ['FR', '150'],
   ];
 
   function drawRegionsMap() {
@@ -66,7 +66,7 @@ $( document ).ready(function() {
       defaultColor: "red",
       datalessRegionColor: "#D3D3D3",
       forceIFrame: true,
-      region: '150',            //COME BACK TO THIS 
+      region: regionCode,            //COME BACK TO THIS 
       // height: 300,
       width: 700,
       // backgroundColor: {
@@ -84,25 +84,25 @@ $( document ).ready(function() {
     chart.draw(data, options);
   }
 
+  //***************************************************************************
+  //START GAME
+  //***************************************************************************
   $startBtn.on('click', function() {
     $.ajax({
-      url: 'http://ws.postcoder.com/pcw/PCW45-12345-12345-1234X/country/' + arrayOfCountryCodes[guessCount] + '?format=json',
+      url: 'http://ws.postcoder.com/pcw/PCW45-12345-12345-1234X/country/' + testArray[guessCount][0] + '?format=json',
       method: "GET",
       success: function(data) {
-        currentCountryCode = testArray[guessCount];
+        console.log(data);
+        currentCountryCode = testArray[guessCount][0];
+        regionCode = testArray[guessCount][1];
+        countryName = data.countryname;
+        console.log(countryName);
         drawRegionsMap();
         guessCount++;
       }
     });
   });
   
-  //May not need this, trying to use Lodash to implement this
-  function objectToArray(obj, array) {
-      for (var keys in obj) {
-          array.push(keys);
-      } 
-      return array;   
-  }
 
    
 
