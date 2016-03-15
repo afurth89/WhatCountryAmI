@@ -24,8 +24,9 @@
   margin: 0 auto;
 }
 
-#buttonContainer {
+#bannerContainer {
   text-align: center;
+  border: 2px solid purple;
 }
 
 #regions_div {
@@ -47,4 +48,8 @@
   width: 100%;
   background-color: #D3D3D3;
   font-size: 32px;
+}
+
+.hidden {
+  display: none;
 }

@@ -3,8 +3,12 @@ $( document ).ready(function() {
   var $startBtn = $('#startButton');
   var $playerGuessForm = $('#playerGuess');
   var $playerGuess;
-  var correctCount = 0;
-  var incorrectCount = 0;
+  var $playerScore = $('#playerScore');
+  var $banner = $('#banner');
+  var imagesShownCount = 0;     // # of images successfully displayed
+  var guessCount = 0;           // # of total guesses
+  var correctCount = 0;         // # of correct guesses
+  var incorrectCount = 0;       // # of incorrect guesses
 
   // Variables that will be used to display each map image
   var currentCountryCode;
@@ -13,8 +17,6 @@ $( document ).ready(function() {
   // against user guess
   var countryName;
 
-  // Counts the number of guesses
-  var guessCount = 0;
 
   //A JSON file that maps ISO2 country codes to ISO2 continent codes
   //http://country.io/data/
@@ -27,6 +29,7 @@ $( document ).ready(function() {
   //***************************************************************************
   //ON PAGE LOAD
   //***************************************************************************
+  $banner.addClass('hidden');
 
   //Array, where each sub-array has two elements:
   //[0]: The country code, [1]: The continent code 
@@ -59,7 +62,11 @@ $( document ).ready(function() {
   //***************************************************************************
   //START GAME
   //***************************************************************************
-  $startBtn.on('click', getNewCountry);
+  $startBtn.on('click', function() {
+    $startBtn.addClass('hidden');
+    $banner.removeClass('hidden').text("What country is this?");
+    getNewCountry();
+  });
 
   //***************************************************************************
   //USES GUESSES
@@ -68,13 +75,16 @@ $( document ).ready(function() {
     e.preventDefault();
     $playerGuess = $('#playerGuessText').val();
     $('#playerGuessText').val("");
+    guessCount++;
+    // Checking guess against correct answer
     if ($playerGuess === countryName) {
-      alert("Correct!");
+      $banner.removeClass('hidden').html(`You are correct, that is <strong>${countryName}</strong>`);
       correctCount++;
     } else {
-      alert("Wrong :(");
+      $banner.removeClass('hidden').html(`Sorry, that's <strong>${countryName}</strong>`);
       incorrectCount++;
     }
+    $playerScore.text(`Player Score: ${correctCount}`);
     getNewCountry();
   });  
   
@@ -110,16 +120,16 @@ $( document ).ready(function() {
 
   function getNewCountry() {
     $.ajax({
-      url: 'http://ws.postcoder.com/pcw/PCW45-12345-12345-1234X/country/' + arrayOfCountryCodes[guessCount][0] + '?format=json',
+      url: 'http://ws.postcoder.com/pcw/PCW45-12345-12345-1234X/country/' + arrayOfCountryCodes[imagesShownCount][0] + '?format=json',
       method: "GET",
       success: function(data) {
-        console.log(data);
-        currentCountryCode = arrayOfCountryCodes[guessCount][0];
-        regionCode = arrayOfCountryCodes[guessCount][1];
+        console.log(data);  //DELETE BEFORE FINSIHED
+        currentCountryCode = arrayOfCountryCodes[imagesShownCount][0];
+        regionCode = arrayOfCountryCodes[imagesShownCount][1];
         countryName = data.countryname;
-        console.log(countryName);
+        console.log(countryName); //DELETE BEFORE FINSIHED
         drawRegionsMap();
-        guessCount++;
+        imagesShownCount++;
       }
     });
   }
