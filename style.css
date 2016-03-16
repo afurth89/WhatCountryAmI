@@ -3,27 +3,27 @@ body {
 }
 
 .row {
-  margin: 0 auto 10px;
+  margin: -3px auto;
 }
 
 #pageTitle {
   text-align: center;
   color: white;
-  font-size: 48px;
+  font-size: 36px;
   font-weight: bold;
+  margin: 5px auto;
 }
 
 #playerInfoDiv {
   display: inline-block;
   width: 100%;
-  margin: 0 auto 10px;
 }
 
 #timerContainer, 
 #bannerContainer,
 #scoreContainer {
   border: 3px solid black;
-  height: 100px;
+  height: 75px;
   text-align: center;
   margin: 5px auto;
   border-radius: 5px;
@@ -39,7 +39,7 @@ body {
 }
 
 #timer {
-  margin: 10px auto;
+  margin: 5px auto;
   font-size: 24px;
 }
 
@@ -49,25 +49,27 @@ body {
 }
 
 #playerScore {
-  margin: 15px auto;
+  margin: 5px auto;
 }
 
 #startButton {
-  margin: 17px auto;
+  margin: 10px auto;
   width: 50%;
-  font-size: 24px;
+  font-size: 36px;
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 #banner {
   margin: 25px auto;
 }
 #imageContainer {
-  margin: 0 auto;
+  margin: 2px auto;
 }
 
 #regions_div {
-   width: 710px; 
-   height: 500px;
+   width: 610px; 
+   height: 400px;
    border: 5px solid black;
    margin: 0 auto;
    border-radius: 5px;
@@ -75,7 +77,7 @@ body {
 
 #playerGuess {
   text-align: center;
-  width: 60%;
+  width: 50%;
   margin: 0 auto;
   border: 5px solid red;
   border-radius: 5px;
@@ -85,7 +87,7 @@ body {
   text-align: center;
   width: 100%;
   background-color: #D3D3D3;
-  font-size: 32px;
+  font-size: 24px;
 }
 
 .hidden {

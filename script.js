@@ -8,6 +8,7 @@ $( document ).ready(function() {
   var answerVsGuess;
   var $playerScore = $('#playerScore');
   var $banner = $('#banner');
+  var $bannerContainer = $('#bannerContainer');
   var imagesShownCount = 0;     // # of images successfully displayed
   var guessCount = 0;           // # of total guesses
   var correctCount = 0;         // # of correct guesses
@@ -68,7 +69,7 @@ $( document ).ready(function() {
   //***************************************************************************
   $startBtn.on('click', function() {
     $startBtn.addClass('hidden');
-    $banner.removeClass('hidden').text("What country is this?");
+    $banner.removeClass('hidden').text("Go!");
     getNewCountry();
     $playerGuess.focus();
     var oneMinute = 60,
@@ -95,9 +96,11 @@ $( document ).ready(function() {
     // Checking guess against correct answer
     if (answerVsGuess.length !== 0) {
       $banner.removeClass('hidden').html(`You are correct, that is <strong>${countryName}</strong>`);
+      $bannerContainer.removeClass('bg-info bg-danger').addClass('bg-success');
       correctCount++;
     } else {
       $banner.removeClass('hidden').html(`Sorry, that's <strong>${countryName}</strong>`);
+      $bannerContainer.removeClass('bg-info bg-success').addClass('bg-danger');
       incorrectCount++;
     }
     $playerScore.text(`Player Score: ${correctCount}`);
@@ -121,7 +124,7 @@ $( document ).ready(function() {
       forceIFrame: true,
       region: regionCode,            //COME BACK TO THIS  regionCode
       // height: 300,
-      width: 700,
+      width: 600,
       magnifyingGlass: {
         enable: true, 
         zoomFactor: 7.5
