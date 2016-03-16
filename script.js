@@ -3,6 +3,9 @@ $( document ).ready(function() {
   var $startBtn = $('#startButton');
   var $playerGuessForm = $('#playerGuess');
   var $playerGuess = $('#playerGuessText');
+  var guessFormatted;
+  var answerFormatted;
+  var answerVsGuess;
   var $playerScore = $('#playerScore');
   var $banner = $('#banner');
   var imagesShownCount = 0;     // # of images successfully displayed
@@ -76,9 +79,15 @@ $( document ).ready(function() {
     e.preventDefault();
     $playerGuess = $('#playerGuessText').val();
     $('#playerGuessText').val("");
+    guessFormatted = makeSortArray($playerGuess);
+    console.log(guessFormatted);
+    answerFormatted = makeSortArray(countryName);
+    console.log(answerFormatted);
+    answerVsGuess = _.intersectionWith(guessFormatted, answerFormatted, _.isEqual);
+    console.log(answerVsGuess);
     guessCount++;
     // Checking guess against correct answer
-    if ($playerGuess === countryName) {
+    if (answerVsGuess.length !== 0) {
       $banner.removeClass('hidden').html(`You are correct, that is <strong>${countryName}</strong>`);
       correctCount++;
     } else {
@@ -134,6 +143,23 @@ $( document ).ready(function() {
       }
     });
   }
+
+  // Creates array where each element is:
+  // a word, lower-case, w/ non-letters removed and non-English
+  // characters replaced
+  // http://stackoverflow.com/questions/286921/efficiently-replace-all-accented-characters-in-a-string
+  var makeSortArray = (function() {
+    var translate_re = /[ôé',()-]/g;
+    var translate = {
+      "ô": "o", "é": "e", "(": "", 
+      ")": "", "-": "", "'": "", ",": ""   // probably more to come
+    };
+    return function(s) {
+      return ( s.replace(translate_re, function(match) { 
+        return translate[match]; 
+      }).toLowerCase().split(" ") );
+    };
+  })();
    
 });
 
