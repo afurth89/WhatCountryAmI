@@ -59,6 +59,7 @@ $( document ).ready(function() {
   arrayOfCountryCodes = _.shuffle(arrayOfCountryCodes);
 
   // Next two lines are Google's Code - DO NOT CHANGE
+  // https://developers.google.com/chart/interactive/docs/gallery/geochart
   google.charts.load('current', {'packages':['geochart']});
   google.charts.setOnLoadCallback(drawRegionsMap);
 
@@ -70,6 +71,9 @@ $( document ).ready(function() {
     $banner.removeClass('hidden').text("What country is this?");
     getNewCountry();
     $playerGuess.focus();
+    var oneMinute = 60,
+            display = document.querySelector('#time');
+        startTimer(oneMinute, display);
   });
 
   //***************************************************************************
@@ -79,12 +83,14 @@ $( document ).ready(function() {
     e.preventDefault();
     $playerGuess = $('#playerGuessText').val();
     $('#playerGuessText').val("");
+    
+    // Format guess and answer
     guessFormatted = makeSortArray($playerGuess);
-    console.log(guessFormatted);
     answerFormatted = makeSortArray(countryName);
-    console.log(answerFormatted);
+    
+    // Compare guess and answer - returns array with any overlapping elements
     answerVsGuess = _.intersectionWith(guessFormatted, answerFormatted, _.isEqual);
-    console.log(answerVsGuess);
+
     guessCount++;
     // Checking guess against correct answer
     if (answerVsGuess.length !== 0) {
@@ -95,28 +101,31 @@ $( document ).ready(function() {
       incorrectCount++;
     }
     $playerScore.text(`Player Score: ${correctCount}`);
+    
+    // Generate a new country
     getNewCountry();
   });  
   
   // Google's drawRegionsMap function - DO NOT CHANGE (except variables)
+  // https://developers.google.com/chart/interactive/docs/gallery/geochart
   function drawRegionsMap() {
 
     var data = google.visualization.arrayToDataTable([
       ['Country'],
-      [currentCountryCode],
+      [currentCountryCode],   //currentCountryCode
     ]);
 
     var options = {
       defaultColor: "red",
       datalessRegionColor: "#D3D3D3",
       forceIFrame: true,
-      region: regionCode,            //COME BACK TO THIS 
+      region: regionCode,            //COME BACK TO THIS  regionCode
       // height: 300,
       width: 700,
-      // backgroundColor: {
-      //   stroke: 'black',
-      //   strokeWidth: 5
-      // }
+      magnifyingGlass: {
+        enable: true, 
+        zoomFactor: 7.5
+      }
     };
 
     var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
@@ -160,6 +169,38 @@ $( document ).ready(function() {
       }).toLowerCase().split(" ") );
     };
   })();
+
+  // Timer function
+  // http://stackoverflow.com/questions/20618355/the-simplest-possible-javascript-countdown-timer
+  function startTimer(duration, display) {
+      var start = Date.now(),
+          diff,
+          minutes,
+          seconds;
+      function timer() {
+          // get the number of seconds that have elapsed since 
+          // startTimer() was called
+          diff = duration - (((Date.now() - start) / 1000) | 0);
+
+          // does the same job as parseInt truncates the float
+          minutes = (diff / 60) | 0;
+          seconds = (diff % 60) | 0;
+
+          minutes = minutes < 10 ? "0" + minutes : minutes;
+          seconds = seconds < 10 ? "0" + seconds : seconds;
+
+          display.textContent = minutes + ":" + seconds; 
+
+          if (diff <= 0) {
+              // add one second so that the count down starts at the full duration
+              // example 05:00 not 04:59
+              start = Date.now() + 1000;
+          }
+      }
+      // we don't want to wait a full second before the timer starts
+      timer();
+      setInterval(timer, 1000);
+  }
    
 });
 

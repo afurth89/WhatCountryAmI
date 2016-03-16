@@ -31,24 +31,19 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <h1 id="pageTitle">What Country Am I?</h1>
+        <h2 id="pageTitle">What Country Am I?</h2>
       </div>
     </div>
     <div class="row" id="playerInfoDiv">
-      <div class="col-md-6 playerInfo">
-        <h2 id="playerName">Player Name</h2>
+      <div class="col-md-4 bg-warning" id="timerContainer">
+        <h2 id="timer">Time Remaining:<br><span id="time"></span></h2>
       </div>
-      <div class="col-md-6 playerInfo">
+      <div class="col-md-4 bg-info" id="bannerContainer">
+        <button type="button" class="btn btn-lg btn-primary" id="startButton">Start Game</button>
+        <h2 id="banner"></h2>
+      </div>
+      <div class="col-md-4 bg-warning" id="scoreContainer">
         <h2 id="playerScore">Player Score</h2>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12" id="bannerContainer">
-        <button type="button" class="btn btn-primary" id="startButton">Start Game</button>
-        <h1 id="banner"></h1>
-      </div>
-      <div class="col-md-12" id="imageContainer">
-        <div id="regions_div"></div>
       </div>
     </div>
     <div class="row">
@@ -56,6 +51,11 @@
         <form id="playerGuess">
           <input type="text" id="playerGuessText" autocomplete="off" placeholder="What country is this?">
         </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12" id="imageContainer">
+        <div id="regions_div"></div>
       </div>
     </div>
   </div>
