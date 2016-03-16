@@ -1,5 +1,5 @@
 body {
-  background-image: url("http://s1.1zoom.net/big0/68/214532-denc.jpg");
+  background-image: url("./images/background_map.jpg");
 }
 
 .row {
@@ -43,6 +43,12 @@ body {
   font-size: 24px;
 }
 
+#timer.gameOver {
+  margin: 15px auto;
+  font-size: 32px;
+  font-weight: bold;
+}
+
 #time {
   font-weight: bold;
   font-size: 32px;
@@ -75,6 +81,16 @@ body {
    border-radius: 5px;
 }
 
+#resultsInfo {
+   width: 610px; 
+   height: 400px;
+   border: 5px solid black;
+   margin: 0 auto;
+   border-radius: 5px;
+   background-color: #D3D3D3;
+   text-align: center;
+}
+
 #playerGuess {
   text-align: center;
   width: 50%;
@@ -90,6 +106,12 @@ body {
   font-size: 24px;
 }
 
+#displayCorrect,
+#displayTotal,
+#displayPct {
+  font-weight: bold;
+  color: red;
+}
 .hidden {
   display: none;
 }

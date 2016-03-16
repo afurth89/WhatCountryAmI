@@ -1,18 +1,25 @@
 $( document ).ready(function() {
 
+  var $timerContainer = $('#timerContainer');
+  var $timer = $('#timer');
+  var $bannerContainer = $('#bannerContainer');
   var $startBtn = $('#startButton');
+  var $banner = $('#banner');
+  var $playerScore = $('#playerScore');
   var $playerGuessForm = $('#playerGuess');
   var $playerGuess = $('#playerGuessText');
+  var $regions_div = $('#regions_div');
   var guessFormatted;
   var answerFormatted;
   var answerVsGuess;
-  var $playerScore = $('#playerScore');
-  var $banner = $('#banner');
-  var $bannerContainer = $('#bannerContainer');
   var imagesShownCount = 0;     // # of images successfully displayed
   var guessCount = 0;           // # of total guesses
   var correctCount = 0;         // # of correct guesses
   var incorrectCount = 0;       // # of incorrect guesses
+  var $resultsInfo = $('#resultsInfo');
+  var $displayCorrect = $('#displayCorrect');
+  var $displayTotal = $('#displayTotal');
+  var $displayPct = $('#displayPct');
 
   // Variables that will be used to display each map image
   var currentCountryCode;
@@ -179,7 +186,8 @@ $( document ).ready(function() {
       var start = Date.now(),
           diff,
           minutes,
-          seconds;
+          seconds,
+          gameTimer;
       function timer() {
           // get the number of seconds that have elapsed since 
           // startTimer() was called
@@ -199,10 +207,27 @@ $( document ).ready(function() {
               // example 05:00 not 04:59
               start = Date.now() + 1000;
           }
+          if (minutes === "00" && seconds === "00") {
+            // stop the timer
+            clearInterval(gameTimer);
+            gameOver();
+          }
       }
       // we don't want to wait a full second before the timer starts
       timer();
-      setInterval(timer, 1000);
+      gameTimer = setInterval(timer, 1000);
+  }
+
+  function gameOver() {
+    //Timer text displays "Game Over"
+    $timerContainer.removeClass('bg-warning').addClass('bg-danger');
+    $timer.addClass('gameOver').text("GAME OVER");
+    //Map changes to display the player's performance
+    $regions_div.addClass('hidden');
+    $resultsInfo.removeClass('hidden');
+    $displayCorrect.text(correctCount);
+    $displayTotal.text(guessCount);
+    $displayPct.text((((correctCount/guessCount)*100) || "0") + "%");
   }
    
 });
