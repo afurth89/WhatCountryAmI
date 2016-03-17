@@ -11,7 +11,7 @@ $( document ).ready(function() {
   var $playerGuess = $('#playerGuessText');
   var $openingVid = $('#openingVid');
   var $regions_div = $('#regions_div');
-  var oneMinute = 15;
+  var oneMinute = 60;
   var guessFormatted;
   var answerFormatted;
   var answerVsGuess;
@@ -304,40 +304,12 @@ $( document ).ready(function() {
   //***************************************************************************
   //START GAME
   //***************************************************************************
-  $startBtn.on('click', function() {
-    $startBtn.addClass('hidden');
-    $openingVid.addClass('hidden');
-    $regions_div.removeClass('hidden');
-    $banner.removeClass('hidden').text("Go!");
-    getNewCountry();
-    $playerGuess.focus();    
-    display = document.querySelector('#time');
-    startTimer(oneMinute, display);
-  });
+  $startBtn.on('click', startGame);
 
   //***************************************************************************
   //USES GUESSES
   //***************************************************************************
-  $playerGuessForm.submit(function(e) {
-    e.preventDefault();
-    $playerGuessVal = $('#playerGuessText').val();
-    $('#playerGuessText').val("");
-    
-    // Format guess and answer
-    guessFormatted = formatAnswerForCheck($playerGuessVal);
-    answerFormatted = formatAnswerForCheck(countryName);
-    
-    // Compare guess and answer - returns array with any overlapping elements
-    answerVsGuess = _.intersectionWith(guessFormatted, answerFormatted, _.isEqual);
-
-    guessCount++;
-    // Checking guess against correct answer
-    checkAnswer();
-    $playerScore.text(`Player Score: ${correctCount}`);
-    
-    // Generate a new country
-    getNewCountry();
-  });  
+  $playerGuessForm.submit(processUserGuess);  
   
   //***************************************************************************
   //RESET GAME
@@ -348,6 +320,7 @@ $( document ).ready(function() {
   //***************************************************************************
   //FUNCTION DEFINITIONS
   //***************************************************************************
+
   // Google's drawRegionsMap function - DO NOT CHANGE (except variables)
   // https://developers.google.com/chart/interactive/docs/gallery/geochart
   function drawRegionsMap() {
@@ -378,35 +351,18 @@ $( document ).ready(function() {
     
     chart.draw(data, options);
   }
-
-  function getNewCountry() {
-    $.ajax({
-      url: 'http://ws.postcoder.com/pcw/PCW45-12345-12345-1234X/country/' + arrayOfCountryInfo[imagesShownCount][0] + '?format=json',
-      method: "GET",
-      success: function(data) {
-        assignCountryInfo(data);
-        drawRegionsMap();
-        imagesShownCount++;
-      }
-    });
-  }
-
-  // Creates array where each element is:
-  // a word, lower-case, w/ non-letters removed and non-English
-  // characters replaced
-  // http://stackoverflow.com/questions/286921/efficiently-replace-all-accented-characters-in-a-string
-  var formatAnswerForCheck = (function() {
-    var translate_re = /[ôé',()-]/g;
-    var translate = {
-      "ô": "o", "é": "e", "(": "", 
-      ")": "", "-": "", "'": "", ",": ""   // probably more to come
-    };
-    return function(s) {
-      return ( s.replace(translate_re, function(match) { 
-        return translate[match]; 
-      }).toLowerCase().split(" ") );
-    };
-  })();
+  
+  // Initiates start of the game
+  function startGame() {
+      $startBtn.addClass('hidden');
+      $openingVid.addClass('hidden');
+      $regions_div.removeClass('hidden');
+      $banner.removeClass('hidden').text("Go!");
+      getNewCountry();
+      $playerGuess.focus();    
+      display = document.querySelector('#time');
+      startTimer(oneMinute, display);
+    }
 
   // Timer function
   // http://stackoverflow.com/questions/20618355/the-simplest-possible-javascript-countdown-timer
@@ -445,7 +401,83 @@ $( document ).ready(function() {
       timer();
       gameTimer = setInterval(timer, 1000);
   }
+  
+  // Displays a new country
+  function getNewCountry() {
+    $.ajax({
+      url: 'http://ws.postcoder.com/pcw/PCW45-12345-12345-1234X/country/' + arrayOfCountryInfo[imagesShownCount][0] + '?format=json',
+      method: "GET",
+      success: function(data) {
+        assignCountryInfo(data);
+        drawRegionsMap();
+        imagesShownCount++;
+      }
+    });
+  }
 
+  // Collects country information and plugs it into Google's drawRegionsMap function
+  function assignCountryInfo(data) {
+    // console.log(data); 
+    currentCountryCode = arrayOfCountryInfo[imagesShownCount][0];
+    regionCode = arrayOfCountryInfo[imagesShownCount][1];
+    countryName = data.countryname;
+    // console.log(countryName);
+  }
+
+  // Takes user's guess, formats it, checks it, and generates the next map
+  function processUserGuess(e) {
+      e.preventDefault();
+      $playerGuessVal = $('#playerGuessText').val();
+      $('#playerGuessText').val("");
+      
+      // Format guess and answer
+      guessFormatted = formatAnswerForCheck($playerGuessVal);
+      answerFormatted = formatAnswerForCheck(countryName);
+      
+      // Compare guess and answer - returns array with any overlapping elements
+      answerVsGuess = _.intersectionWith(guessFormatted, answerFormatted, _.isEqual);
+
+      guessCount++;
+      // Checking guess against correct answer
+      checkAnswer();
+      $playerScore.text(`Player Score: ${correctCount}`);
+      
+      // Generate a new country
+      getNewCountry();
+    }
+
+  // Creates array where each element is:
+  // a word, lower-case, w/ non-letters removed and non-English
+  // characters replaced
+  // http://stackoverflow.com/questions/286921/efficiently-replace-all-accented-characters-in-a-string
+  var formatAnswerForCheck = (function() {
+    var translate_re = /[ôé',()-]/g;
+    var translate = {
+      "ô": "o", "é": "e", "(": "", 
+      ")": "", "-": "", "'": "", ",": ""   // probably more to come
+    };
+    return function(s) {
+      return ( s.replace(translate_re, function(match) { 
+        return translate[match]; 
+      }).toLowerCase().split(" ") );
+    };
+  })();
+
+
+  //Checks user's answer vs correct answer
+  function checkAnswer() {
+    if (answerVsGuess.length !== 0) {
+      $banner.removeClass('hidden').html(`You are correct, that is <strong>${countryName}</strong>`);
+      $bannerContainer.removeClass('bg-info bg-danger').addClass('bg-success');
+      correctCount++;
+    } else {
+      $banner.removeClass('hidden').html(`Sorry, that's <strong>${countryName}</strong>`);
+      $bannerContainer.removeClass('bg-info bg-success').addClass('bg-danger');
+      incorrectCount++;
+    }
+  }
+
+  // Triggered when the game ends (when the timer runs out)
   function gameOver() {
     //Timer and Score text displays "Game Over"
     $timerContainer.removeClass('bg-warning').addClass('bg-danger');
@@ -470,7 +502,21 @@ $( document ).ready(function() {
     $resetBtn.removeClass('hidden');
   }
 
+  // Sets the results image depending on user's score % 
+  function setResultsImg(num) {
+    if (num > 75) {
+      imgURL = "./images/borat_great_success.jpg";
+    } else if (num <= 75 && num > 50) {
+      imgURL = "./images/larry_pretty_good.jpg";
+    } else if (num <= 50 && num > 25) {
+      imgURL = "./images/african_kid_try_again.jpg";
+    } else {
+      imgURL = "./images/picard_wtf.jpg";
+    }
+    $resultsImg.attr("src", imgURL);
+  }
 
+  // Triggered when user clicks "Play Again" button
   function resetGame() {
     // Remove reset button and results div
     $resetBtn.addClass('hidden');
@@ -493,40 +539,5 @@ $( document ).ready(function() {
     startTimer(oneMinute, display);  
   }
   
-  // Sets the results image depending on user's score % 
-  function setResultsImg(num) {
-    if (num >= 75) {
-      imgURL = "./images/borat_great_success.jpg";
-    } else if (num < 75 && num >= 50) {
-      imgURL = "./images/larry_pretty_good.jpg";
-    } else if (num < 50 && num >= 25) {
-      imgURL = "./images/african_kid_try_again.jpg";
-    } else {
-      imgURL = "./images/picard_wtf.jpg";
-    }
-    $resultsImg.attr("src", imgURL);
-  }
-
-  //Checks user's answer vs correct answer
-  function checkAnswer() {
-    if (answerVsGuess.length !== 0) {
-      $banner.removeClass('hidden').html(`You are correct, that is <strong>${countryName}</strong>`);
-      $bannerContainer.removeClass('bg-info bg-danger').addClass('bg-success');
-      correctCount++;
-    } else {
-      $banner.removeClass('hidden').html(`Sorry, that's <strong>${countryName}</strong>`);
-      $bannerContainer.removeClass('bg-info bg-success').addClass('bg-danger');
-      incorrectCount++;
-    }
-  }
-
-  // Collects country information and plugs it into Google's drawRegionsMap function
-  function assignCountryInfo(data) {
-    // console.log(data); 
-    currentCountryCode = arrayOfCountryInfo[imagesShownCount][0];
-    regionCode = arrayOfCountryInfo[imagesShownCount][1];
-    countryName = data.countryname;
-    // console.log(countryName);
-  }
 });
 
