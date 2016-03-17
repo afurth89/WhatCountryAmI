@@ -7,7 +7,7 @@ $( document ).ready(function() {
   var $banner = $('#banner');
   var $scoreContainer = $('#scoreContainer');
   var $playerScore = $('#playerScore');
-  var $playerGuessForm = $('#playerGuess');
+  var $playerGuessForm = $('#playerGuessForm');
   var $playerGuess = $('#playerGuessText');
   var $openingVid = $('#openingVid');
   var $regions_div = $('#regions_div');
@@ -320,11 +320,11 @@ $( document ).ready(function() {
   //***************************************************************************
   $playerGuessForm.submit(function(e) {
     e.preventDefault();
-    $playerGuess = $('#playerGuessText').val();
+    $playerGuessVal = $('#playerGuessText').val();
     $('#playerGuessText').val("");
     
     // Format guess and answer
-    guessFormatted = makeSortArray($playerGuess);
+    guessFormatted = makeSortArray($playerGuessVal);
     answerFormatted = makeSortArray(countryName);
     
     // Compare guess and answer - returns array with any overlapping elements
@@ -463,6 +463,8 @@ $( document ).ready(function() {
     //Display answer for country when time expired - doesn't add to incorrect total
     $banner.removeClass('hidden').html(`Sorry, that's <strong>${countryName}</strong>`);
     $bannerContainer.removeClass('bg-info bg-success').addClass('bg-danger');
+    // Hides the guess input form
+    $playerGuessForm.addClass('hidden');
     //Map changes to display the player's performance
     $regions_div.addClass('hidden');
     $resultsInfo.removeClass('hidden');
@@ -488,7 +490,10 @@ $( document ).ready(function() {
     //Resets banner color to light blue and changes text
     $bannerContainer.removeClass('bg-danger').addClass('bg-info ');
     $banner.removeClass('hidden').text("Let's play again!");
+    // Resets guess input form and map
+    $playerGuessForm.removeClass('hidden');
     $regions_div.removeClass('hidden');
+    
     getNewCountry();
     $playerGuess.focus();    
     display = document.querySelector('#time');
