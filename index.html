@@ -13,15 +13,16 @@
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   
-  <!-- Bootswatch United Theme -->
-  <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/united/bootstrap.min.css" rel="stylesheet" integrity="sha384-0UBL8wxZ28kqJ8w8N8RUV0odBG5w8D/Y+rb+o7hr2F3dS9twlAE8S7VUtVSRe5cc" crossorigin="anonymous">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"> -->
   
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   
+  <!-- Bootswatch United Theme -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/united/bootstrap.min.css" rel="stylesheet" integrity="sha384-0UBL8wxZ28kqJ8w8N8RUV0odBG5w8D/Y+rb+o7hr2F3dS9twlAE8S7VUtVSRe5cc" crossorigin="anonymous">
+
   <!-- My CSS Stylesheet -->
   <link rel="stylesheet" href="./style.css">
 
@@ -55,7 +56,13 @@
     </div>
     <div class="row">
       <div class="col-md-12" id="imageContainer">
-        <div id="regions_div"></div>
+        <div class="panel panel-default" id="openingVid">
+          <div class="panel-heading">Why is this game important? Just watch...</div>
+          <div class="panel-body">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/Pu1PRyGKggI?rel=0" frameborder="0" allowfullscreen></iframe>
+          </div>
+        </div>
+        <div id="regions_div" class="hidden"></div>
         <div class="hidden" id="resultsInfo">
           <h1>RESULTS<br><br>
             You identified <span id="displayCorrect"></span> 

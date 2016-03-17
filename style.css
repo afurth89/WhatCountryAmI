@@ -73,6 +73,24 @@ body {
   margin: 2px auto;
 }
 
+#openingVid {
+  width: 569px; 
+  height: 364px;
+  border: 5px solid black;
+  margin: 0 auto;
+  border-radius: 5px;
+}
+
+#openingVid .panel-heading {
+  background-color: #bf3e11;
+  color: white;
+  margin-bottom: -1px;
+}
+
+#openingVid .panel-body {
+  padding: 0px;
+}
+
 #regions_div {
    width: 610px; 
    height: 400px;
@@ -83,7 +101,7 @@ body {
 
 #resultsInfo {
    width: 610px; 
-   height: 400px;
+   height: 365px;
    border: 5px solid black;
    margin: 0 auto;
    border-radius: 5px;
