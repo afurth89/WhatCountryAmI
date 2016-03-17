@@ -1,4 +1,4 @@
-var countryCodesOb =
+var countryCodesObj =
 { BD: { region: '034' },
   BE: { region: '155' },
   BF: { region: '011' },
@@ -234,3 +234,19 @@ var countryCodesOb =
   UA: { region: '151' },
   QA: { region: '145' },
   MZ: { region: '014' }};
+
+var i = 0;
+
+var arrayOfCountryInfo = _.transform(countryCodesObj, function(result, val, key, obj) {
+  result[i] = [];                               //Create empty sub-array
+  result[i].push(key);                          //Push country code to sub-array[0]
+  result[i].push(val.region);                   //Push region code to sub-array[1]
+  i++;
+}, []);
+
+// Designed return:
+// var arrayOfCountryCodes = [
+//   [BD, 034],
+//   [BE, 155],
+//   ...
+// ];
