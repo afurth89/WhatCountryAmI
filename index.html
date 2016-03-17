@@ -64,11 +64,14 @@
         </div>
         <div id="regions_div" class="hidden"></div>
         <div class="hidden" id="resultsInfo">
-          <h1>RESULTS<br><br>
-            You identified <span id="displayCorrect"></span> 
-            countries <br> out of a possible <span id="displayTotal"></span><br>
+          <h1 id="resultsHeader">RESULTS</h1>
+          <h3 id="resultsText">You identified <span id="displayCorrect"></span> 
+            countries out of a possible <span id="displayTotal"></span>
             (<span id="displayPct"></span>)
-          </h1>
+          </h3>
+          <img id=resultsImg>
+          <br>
+          <button type="button" class="btn btn-lg btn-primary" id="resetButton">Play Again</button>
         </div>
       </div>
     </div>

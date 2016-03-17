@@ -43,7 +43,8 @@ body {
   font-size: 24px;
 }
 
-#timer.gameOver {
+#timer.gameOver,
+#playerScore.gameOver {
   margin: 15px auto;
   font-size: 32px;
   font-weight: bold;
@@ -130,6 +131,17 @@ body {
   font-weight: bold;
   color: red;
 }
+
+#resultsHeader,
+#resultsText,
+#resultsImg {
+  margin: 5px auto;
+}
+
+#resultsImg {
+  height: 200px;
+}
+
 .hidden {
   display: none;
 }
