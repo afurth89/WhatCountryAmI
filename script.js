@@ -324,23 +324,15 @@ $( document ).ready(function() {
     $('#playerGuessText').val("");
     
     // Format guess and answer
-    guessFormatted = makeSortArray($playerGuessVal);
-    answerFormatted = makeSortArray(countryName);
+    guessFormatted = formatAnswerForCheck($playerGuessVal);
+    answerFormatted = formatAnswerForCheck(countryName);
     
     // Compare guess and answer - returns array with any overlapping elements
     answerVsGuess = _.intersectionWith(guessFormatted, answerFormatted, _.isEqual);
 
     guessCount++;
     // Checking guess against correct answer
-    if (answerVsGuess.length !== 0) {
-      $banner.removeClass('hidden').html(`You are correct, that is <strong>${countryName}</strong>`);
-      $bannerContainer.removeClass('bg-info bg-danger').addClass('bg-success');
-      correctCount++;
-    } else {
-      $banner.removeClass('hidden').html(`Sorry, that's <strong>${countryName}</strong>`);
-      $bannerContainer.removeClass('bg-info bg-success').addClass('bg-danger');
-      incorrectCount++;
-    }
+    checkAnswer();
     $playerScore.text(`Player Score: ${correctCount}`);
     
     // Generate a new country
@@ -352,6 +344,10 @@ $( document ).ready(function() {
   //***************************************************************************
   $resetBtn.on('click', resetGame);
 
+
+  //***************************************************************************
+  //FUNCTION DEFINITIONS
+  //***************************************************************************
   // Google's drawRegionsMap function - DO NOT CHANGE (except variables)
   // https://developers.google.com/chart/interactive/docs/gallery/geochart
   function drawRegionsMap() {
@@ -388,11 +384,7 @@ $( document ).ready(function() {
       url: 'http://ws.postcoder.com/pcw/PCW45-12345-12345-1234X/country/' + arrayOfCountryInfo[imagesShownCount][0] + '?format=json',
       method: "GET",
       success: function(data) {
-        console.log(data);  //DELETE BEFORE FINSIHED
-        currentCountryCode = arrayOfCountryInfo[imagesShownCount][0];
-        regionCode = arrayOfCountryInfo[imagesShownCount][1];
-        countryName = data.countryname;
-        console.log(countryName); //DELETE BEFORE FINSIHED
+        assignCountryInfo(data);
         drawRegionsMap();
         imagesShownCount++;
       }
@@ -403,7 +395,7 @@ $( document ).ready(function() {
   // a word, lower-case, w/ non-letters removed and non-English
   // characters replaced
   // http://stackoverflow.com/questions/286921/efficiently-replace-all-accented-characters-in-a-string
-  var makeSortArray = (function() {
+  var formatAnswerForCheck = (function() {
     var translate_re = /[ôé',()-]/g;
     var translate = {
       "ô": "o", "é": "e", "(": "", 
@@ -478,6 +470,7 @@ $( document ).ready(function() {
     $resetBtn.removeClass('hidden');
   }
 
+
   function resetGame() {
     // Remove reset button and results div
     $resetBtn.addClass('hidden');
@@ -499,7 +492,8 @@ $( document ).ready(function() {
     display = document.querySelector('#time');
     startTimer(oneMinute, display);  
   }
-   
+  
+  // Sets the results image depending on user's score % 
   function setResultsImg(num) {
     if (num >= 75) {
       imgURL = "./images/borat_great_success.jpg";
@@ -511,6 +505,28 @@ $( document ).ready(function() {
       imgURL = "./images/picard_wtf.jpg";
     }
     $resultsImg.attr("src", imgURL);
+  }
+
+  //Checks user's answer vs correct answer
+  function checkAnswer() {
+    if (answerVsGuess.length !== 0) {
+      $banner.removeClass('hidden').html(`You are correct, that is <strong>${countryName}</strong>`);
+      $bannerContainer.removeClass('bg-info bg-danger').addClass('bg-success');
+      correctCount++;
+    } else {
+      $banner.removeClass('hidden').html(`Sorry, that's <strong>${countryName}</strong>`);
+      $bannerContainer.removeClass('bg-info bg-success').addClass('bg-danger');
+      incorrectCount++;
+    }
+  }
+
+  // Collects country information and plugs it into Google's drawRegionsMap function
+  function assignCountryInfo(data) {
+    // console.log(data); 
+    currentCountryCode = arrayOfCountryInfo[imagesShownCount][0];
+    regionCode = arrayOfCountryInfo[imagesShownCount][1];
+    countryName = data.countryname;
+    // console.log(countryName);
   }
 });
 

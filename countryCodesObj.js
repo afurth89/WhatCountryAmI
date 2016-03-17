@@ -250,3 +250,15 @@ var arrayOfCountryInfo = _.transform(countryCodesObj, function(result, val, key,
 //   [BE, 155],
 //   ...
 // ];
+
+function checkAnswer() {
+  if (answerVsGuess.length !== 0) {
+    $banner.removeClass('hidden').html(`You are correct, that is <strong>${countryName}</strong>`);
+    $bannerContainer.removeClass('bg-info bg-danger').addClass('bg-success');
+    correctCount++;
+  } else {
+    $banner.removeClass('hidden').html(`Sorry, that's <strong>${countryName}</strong>`);
+    $bannerContainer.removeClass('bg-info bg-success').addClass('bg-danger');
+    incorrectCount++;
+  }
+}
