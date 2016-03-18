@@ -49,18 +49,6 @@ $( document ).ready(function() {
   //***************************************************************************
   $banner.addClass('hidden');
 
-  //Array, where each sub-array has two elements:
-  //[0]: The country code, [1]: The region code 
-  // arrayOfCountryInfo = _.transform(masterCountryObj, function(result, val, key, obj) {
-  //   result[i] = [];                               //Create empty sub-array
-  //   result[i].push(key);                          //Push country code to sub-array[0]
-  //   result[i].push(val.region);                   //Push region code to sub-array[1]
-  //   i++;
-  // }, []);
-
-  // // Shuffles Country Code Array on page load
-  // arrayOfCountryInfo = _.shuffle(arrayOfCountryInfo);
-
   // Next two lines are Google's Code - DO NOT CHANGE
   // https://developers.google.com/chart/interactive/docs/gallery/geochart
   google.charts.load('current', {'packages':['geochart']});
@@ -189,6 +177,7 @@ $( document ).ready(function() {
   function startGame() {
       $startBtn.addClass('hidden');
       $openingVid.addClass('hidden');
+      $playerGuessForm.removeClass('hidden');
       $regions_div.removeClass('hidden');
       $banner.removeClass('hidden').text("Go!");
       getNewCountry();
