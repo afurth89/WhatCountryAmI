@@ -3,7 +3,11 @@ $( document ).ready(function() {
   var $timerContainer = $('#timerContainer');
   var $timer = $('#timer');
   var $bannerContainer = $('#bannerContainer');
-  var $startBtn = $('#startButton');
+  var $startBtn = $('.startBtn');
+  var $lvlOneBtn = $('#lvl1Btn');
+  var $lvlTwoBtn = $('#lvl2Btn');
+  var $lvlThreeBtn = $('#lvl3Btn');
+  var $lvlFourBtn = $('#lvl4Btn');
   var $banner = $('#banner');
   var $scoreContainer = $('#scoreContainer');
   var $playerScore = $('#playerScore');
@@ -36,7 +40,8 @@ $( document ).ready(function() {
   var countryName;
 
   //Counter for transforming masterCountryObj
-  var i = 0;
+  var total = 0;
+  var returned = 0; 
   var arrayOfCountryInfo;
 
   //***************************************************************************
@@ -46,15 +51,15 @@ $( document ).ready(function() {
 
   //Array, where each sub-array has two elements:
   //[0]: The country code, [1]: The region code 
-  arrayOfCountryInfo = _.transform(masterCountryObj, function(result, val, key, obj) {
-    result[i] = [];                               //Create empty sub-array
-    result[i].push(key);                          //Push country code to sub-array[0]
-    result[i].push(val.region);                   //Push region code to sub-array[1]
-    i++;
-  }, []);
+  // arrayOfCountryInfo = _.transform(masterCountryObj, function(result, val, key, obj) {
+  //   result[i] = [];                               //Create empty sub-array
+  //   result[i].push(key);                          //Push country code to sub-array[0]
+  //   result[i].push(val.region);                   //Push region code to sub-array[1]
+  //   i++;
+  // }, []);
 
-  // Shuffles Country Code Array on page load
-  arrayOfCountryInfo = _.shuffle(arrayOfCountryInfo);
+  // // Shuffles Country Code Array on page load
+  // arrayOfCountryInfo = _.shuffle(arrayOfCountryInfo);
 
   // Next two lines are Google's Code - DO NOT CHANGE
   // https://developers.google.com/chart/interactive/docs/gallery/geochart
@@ -64,7 +69,75 @@ $( document ).ready(function() {
   //***************************************************************************
   //START GAME
   //***************************************************************************
-  $startBtn.on('click', startGame);
+  // $startBtn.on('click', startGame);
+  $lvlOneBtn.on("click", function() {
+    //run level one sort
+    var lvlOneArray = _.transform(masterCountryObj, function(result, val, key, obj) {
+        if (val.difficulty === "1") {
+          result[returned] = [];                               //Create empty sub-array
+          result[returned].push(key);                          //Push country code to sub-array[0]
+          result[returned].push(val.region);                  //Push region code to sub-array[1]
+          returned++;                                         
+        }
+        total++;
+      }, []); 
+    console.log(lvlOneArray);
+    //shuffle level one
+    arrayOfCountryInfo = _.shuffle(lvlOneArray);
+    //start game
+    startGame();
+  });
+
+  $lvlTwoBtn.on("click", function() {
+    var lvlTwoArray = _.transform(masterCountryObj, function(result, val, key, obj) {
+        if (val.difficulty === "1" ||
+            val.difficulty === "2") {
+          result[returned] = [];                               //Create empty sub-array
+          result[returned].push(key);                          //Push country code to sub-array[0]
+          result[returned].push(val.region);                  //Push region code to sub-array[1]
+          returned++;                                         
+        }
+        total++;
+      }, []); 
+    console.log(lvlTwoArray);
+    //shuffle level two
+    arrayOfCountryInfo = _.shuffle(lvlTwoArray);
+    //start game
+    startGame();
+  });
+
+  $lvlThreeBtn.on("click", function() {
+    var lvlThreeArray = _.transform(masterCountryObj, function(result, val, key, obj) {
+        if (val.difficulty === "1" ||
+            val.difficulty === "2" ||
+            val.difficulty === "3") {
+          result[returned] = [];                               //Create empty sub-array
+          result[returned].push(key);                          //Push country code to sub-array[0]
+          result[returned].push(val.region);                  //Push region code to sub-array[1]
+          returned++;                                         
+        }
+        total++;
+      }, []); 
+    console.log(lvlThreeArray);
+    //shuffle level three
+    arrayOfCountryInfo = _.shuffle(lvlThreeArray);
+    //start game
+    startGame();
+  });
+
+  $lvlFourBtn.on("click", function() {
+    arrayOfCountryInfo = _.transform(masterCountryObj, function(result, val, key, obj) {
+      result[total] = [];                               //Create empty sub-array
+      result[total].push(key);                          //Push country code to sub-array[0]
+      result[total].push(val.region);                   //Push region code to sub-array[1]
+      total++;
+    }, []);
+    console.log(arrayOfCountryInfo);
+    //run level four sort
+    arrayOfCountryInfo = _.shuffle(arrayOfCountryInfo);
+    //start game
+    startGame();
+  });
 
   //***************************************************************************
   //USES GUESSES

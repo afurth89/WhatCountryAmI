@@ -273,3 +273,4 @@ function addDifficultyToObj(obj1, obj2) {
 }
 
 var masterCountryObj = addDifficultyToObj(fullDifficultlyObj, countryCodesObj);
+
